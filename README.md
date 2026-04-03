@@ -1,6 +1,6 @@
 # Connect 4
 
-This is a game of connect 4 made entirely in C.
+This is a game of connect 4 made entirely in C that runs in a terminal.
 
 ## How to build and run
 ### (Mac OS / Linux)
