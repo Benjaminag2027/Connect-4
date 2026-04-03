@@ -1,5 +1,5 @@
 cd build
 
-./main.o
+start main.o
 
 cd ..

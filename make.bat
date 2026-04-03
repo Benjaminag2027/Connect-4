@@ -1,0 +1,4 @@
+rmdir /s /q build
+mkdir build
+
+gcc main.c -o build/main.o
