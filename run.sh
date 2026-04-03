@@ -1,1 +1,4 @@
-./main
+cd build
+./main.o
+
+cd ..
