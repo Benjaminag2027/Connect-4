@@ -16,6 +16,8 @@
 
     bool isP1Turn = true;
 
+    int endType = 0;
+
     void clearScreen() {
         #ifdef _WIN32
             system("cls");
@@ -101,7 +103,18 @@
         return 0;
     }
 
-    bool testWin(bool player) {
+    int testWin(bool player) {
+        bool full = true;
+        for (int c = 0; c < COLS; c++) {
+            if (!gameBoard[0][c].isUsed) {
+                full = false;
+                break;
+            }
+        }
+        if (full) {
+            return 2;
+        };
+
         for (int row = 0; row < ROWS; row ++) {
             for (int col = 0; col < COLS - 3; col ++) {
                 if (gameBoard[row][col].isUsed && gameBoard[row][col + 1].isUsed && gameBoard[row][col + 2].isUsed && gameBoard[row][col + 3].isUsed) {
@@ -111,7 +124,7 @@
                         gameBoard[row][col + 2].isWinning = true;
                         gameBoard[row][col + 3].isWinning = true;
         
-                        return true;
+                        return 1;
                     }
                 }
             }
@@ -126,13 +139,13 @@
                         gameBoard[row + 2][col].isWinning = true;
                         gameBoard[row + 3][col].isWinning = true;
 
-                        return true;
+                        return 1;
                     }
                 }
             }
         }
 
-        for (int row = 3; row < ROWS - 1; row ++) {
+        for (int row = 3; row < ROWS; row ++) {
             for (int col = 0; col < COLS - 3; col ++) {
                 if (gameBoard[row][col].isUsed && gameBoard[row - 1][col + 1].isUsed && gameBoard[row - 2][col + 2].isUsed && gameBoard[row - 3][col + 3].isUsed) {
                     if (gameBoard[row][col].p1Owns == player && gameBoard[row - 1][col + 1].p1Owns == player && gameBoard[row - 2][col + 2].p1Owns == player && gameBoard[row - 3][col + 3].p1Owns == player) {
@@ -141,7 +154,7 @@
                         gameBoard[row - 2][col + 2].isWinning = true;
                         gameBoard[row - 3][col + 3].isWinning = true;
 
-                        return true;
+                        return 1;
                     }
                 }
             }
@@ -156,13 +169,13 @@
                         gameBoard[row + 2][col + 2].isWinning = true;
                         gameBoard[row + 3][col + 3].isWinning = true;
 
-                        return true;
+                        return 1;
                     }
                 }
             }
         }
 
-        return false;
+        return 0;
     }
 
     int main() { 
@@ -183,13 +196,20 @@
                 drop(scanner - 1);
             }
 
-            if (testWin(!isP1Turn)) {
+            endType = testWin(!isP1Turn);
+
+            if (endType != 0) {
                 break;
             }
         }
         draw();
 
-        printf(!isP1Turn ? "\033[34mPlayer 1\033[0m WON!\n": "\033[33mPlayer 2\033[0m WON!\n");
+        if (endType != 2) {
+            printf(!isP1Turn ? "\033[34mPlayer 1\033[0m WON!\n": "\033[33mPlayer 2\033[0m WON!\n");
+        }
+        else {
+            printf("Draw!");
+        }
 
         return 0;
     }
