@@ -3,7 +3,7 @@
     #include <stdlib.h>
     #include <string.h>
 
-    #define ROWS 5
+    #define ROWS 6
     #define COLS 7
 
     typedef struct {
